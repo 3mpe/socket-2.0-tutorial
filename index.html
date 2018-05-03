@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Soket</title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+
+<button type="button" onclick="getUserList()">Kullanicilari Cek</button>
+
+	<ul id="list">
+		
+	</ul>
+
+	<div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+		<textarea name="chat" id="chat" rows="15" cols="150"></textarea>
+		<button type="button" onclick="sendMessage()">Gonder</button>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js" type="text/javascript"></script>
+	<script>
+    const socket = io("http://882d0765.ngrok.io");
+	
+    	var userList =[];
+
+		socket.on('user-list', function (data) {
+			userList = data;
+		});
+	  	
+	  	socket.on('new message', function (message) {
+			$('#list').append('<li>' + message + '</li>');
+		});
+
+
+	  	function getUserList() {
+	  		socket.emit('user-connect', 'null');
+	  	}
+
+	  	function sendMessage() {
+	  		socket.emit('user-message', {id: '7_ZnmFbdcp-lwk-SAAAJ', message: $("#chat").val()});
+	  	}
+
+	// });
+
+
+
+
+	</script>
+</body>
+</html>
